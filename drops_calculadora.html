@@ -386,8 +386,8 @@ nav{flex-shrink:0;height:52px;display:flex;align-items:center;justify-content:sp
 <script>
 // ── REGULAR ──────────────────────────────────────────
 var RECIPES={
-  filtro:{america:{lavado:[3,8,2],natural:[5,6,3]},africa:{lavado:[2,9,2],natural:[3,8,2]},asia:{lavado:[4,6,3],natural:[5,6,3]}},
-  espresso:{america:{lavado:[4,6,2],natural:[5,5,3]},africa:{lavado:[3,7,2],natural:[4,6,2]},asia:{lavado:[5,5,3],natural:[5,5,4]}}
+  filtro:  {america:{lavado:[4,6,3],natural:[6,5,3]},africa:{lavado:[3,8,1],natural:[4,7,1]},asia:{lavado:[5,5,5],natural:[7,4,6]}},
+  espresso:{america:{lavado:[4,6,3],natural:[6,5,3]},africa:{lavado:[3,8,1],natural:[4,7,1]},asia:{lavado:[5,5,5],natural:[7,4,6]}}
 };
 var PERFILES={america:{lavado:'Dulce - Achocolatado',natural:'Frutal - Cuerpo alto'},africa:{lavado:'Floral - Citrico',natural:'Mora - Intenso'},asia:{lavado:'Herbal - Especiado',natural:'Tierra - Cuerpo pleno'}};
 var ST={origen:null,proceso:null,metodo:null,vol:500};
@@ -475,7 +475,10 @@ function update(){
   var o=ST.origen,pr=ST.proceso,m=ST.metodo,vol=ST.vol||500;
   if(!o||!pr||!m)return;
   var base=RECIPES[m]&&RECIPES[m][o]&&RECIPES[m][o][pr];if(!base)return;
-  var sc=vol/500,r=Math.round(base[0]*sc*2)/2,y=Math.round(base[1]*sc*2)/2,b=Math.round(base[2]*sc*2)/2,tot=r+y+b||1;
+  var sc=vol/500,r0=Math.round(base[0]*sc*2)/2,y0=Math.round(base[1]*sc*2)/2,b=Math.round(base[2]*sc*2)/2;
+  var r=m==='espresso'?y0:r0,y=m==='espresso'?r0:y0;
+  if(m==='espresso'){r=Math.round(r*1.5*2)/2;y=Math.round(y*1.5*2)/2;b=Math.round(b*1.5*2)/2;}
+  var tot=r+y+b||1;
   tR=r/tot;tY=y/tot;tB=b/tot;hasResult=true;
   var rP=+(r*2*1000/vol).toFixed(1),yP=+(y*2*1000/vol).toFixed(1),bP=+(b*2*1000/vol).toFixed(1),tds=+(rP+yP+bP).toFixed(1);
   document.getElementById('rd').textContent=fmt(r);document.getElementById('yd').textContent=fmt(y);document.getElementById('bd').textContent=fmt(b);
@@ -494,14 +497,14 @@ var P_IDS=['variedad','proceso','perfil','metodo','volumen','resultado'];
 var PST={variedad:null,proceso:null,perfil:null,metodo:null,vol:500};
 var PCUR=0;var PTOTAL=P_LABELS.length;
 var PRECIPES={
-  gesha:{lavado:[2,9,2],honey:[3,8,2],natural:[3,8,2],extendido:[3,7,2],cofermentado:[2,8,2]},
-  castillo:{lavado:[3,7,2],honey:[4,6,2],natural:[5,6,3],extendido:[4,6,3],cofermentado:[4,7,2]},
-  sl:{lavado:[2,9,2],honey:[3,8,2],natural:[3,9,2],extendido:[3,8,2],cofermentado:[2,8,2]},
-  pink_bourbon:{lavado:[3,8,2],honey:[3,7,2],natural:[4,7,2],extendido:[4,7,2],cofermentado:[3,7,2]},
-  bourbon:{lavado:[3,7,2],honey:[4,6,2],natural:[5,5,3],extendido:[4,6,3],cofermentado:[3,6,3]},
-  papayo:{lavado:[3,7,2],honey:[3,7,2],natural:[4,6,3],extendido:[4,6,3],cofermentado:[3,7,3]},
-  catimor:{lavado:[4,5,3],honey:[4,5,3],natural:[5,5,3],extendido:[5,4,4],cofermentado:[4,5,4]},
-  canephora:{lavado:[5,4,4],honey:[5,4,4],natural:[6,4,4],extendido:[5,4,4],cofermentado:[4,5,4]}
+  gesha:{lavado:[2,9,1],honey:[2,8,1],natural:[3,8,1],extendido:[2,8,1],cofermentado:[2,9,1]},
+  sl:{lavado:[7,4,2],honey:[8,4,2],natural:[10,3,2],extendido:[8,3,2],cofermentado:[8,4,2]},
+  pink_bourbon:{lavado:[3,8,2],honey:[4,7,2],natural:[4,7,2],extendido:[4,7,2],cofermentado:[3,8,2]},
+  bourbon:{lavado:[3,6,3],honey:[4,5,3],natural:[4,5,3],extendido:[4,5,3],cofermentado:[3,6,3]},
+  castillo:{lavado:[4,4,4],honey:[5,4,4],natural:[6,3,5],extendido:[5,3,5],cofermentado:[4,4,4]},
+  papayo:{lavado:[3,7,2],honey:[4,6,2],natural:[4,6,2],extendido:[4,6,2],cofermentado:[3,7,2]},
+  catimor:{lavado:[4,5,3],honey:[5,4,3],natural:[6,4,3],extendido:[5,4,3],cofermentado:[4,5,3]},
+  canephora:{lavado:[5,4,4],honey:[6,4,4],natural:[7,3,5],extendido:[6,3,5],cofermentado:[6,4,4]}
 };
 var PVNAMES={gesha:'Gesha',sl:'SL28/SL34',pink_bourbon:'Pink Bourbon',bourbon:'Red/Yellow Bourbon',castillo:'Castillo - Caturra',papayo:'Papayo',catimor:'Catimor',canephora:'Canephora'};
 var PPNAMES={lavado:'Lavado',honey:'Honey',natural:'Natural',extendido:'Extendido',cofermentado:'Cofermentado'};
