@@ -475,9 +475,9 @@ function update(){
   var o=ST.origen,pr=ST.proceso,m=ST.metodo,vol=ST.vol||500;
   if(!o||!pr||!m)return;
   var base=RECIPES[m]&&RECIPES[m][o]&&RECIPES[m][o][pr];if(!base)return;
-  var sc=vol/500,r0=Math.round(base[0]*sc*2)/2,y0=Math.round(base[1]*sc*2)/2,b=Math.round(base[2]*sc*2)/2;
+  var sc=vol/500,r0=Math.ceil(base[0]*sc),y0=Math.ceil(base[1]*sc),b=Math.ceil(base[2]*sc);
   var r=m==='espresso'?y0:r0,y=m==='espresso'?r0:y0;
-  if(m==='espresso'){r=Math.round(r*1.5*2)/2;y=Math.round(y*1.5*2)/2;b=Math.round(b*1.5*2)/2;}
+  if(m==='espresso'){r=Math.ceil(r*1.5);y=Math.ceil(y*1.5);b=Math.ceil(b*1.5);}
   var tot=r+y+b||1;
   tR=r/tot;tY=y/tot;tB=b/tot;hasResult=true;
   var rP=+(r*2*1000/vol).toFixed(1),yP=+(y*2*1000/vol).toFixed(1),bP=+(b*2*1000/vol).toFixed(1),tds=+(rP+yP+bP).toFixed(1);
@@ -583,7 +583,7 @@ function pCalc(){
   var r=base[0],y=base[1],b=base[2];
   if(m==='cupping'){r=Math.max(1,Math.round(r*.8));y=Math.max(1,Math.round(y*.8));b=Math.max(1,Math.round(b*.8));}
   if(pf==='limpio'){r=Math.max(1,r-1);y+=1;}else if(pf==='redondo'){r+=1;y=Math.max(1,y-1);}else if(pf==='aromatico'){b+=1;}
-  var sc=vol/500;r=Math.round(r*sc*2)/2;y=Math.round(y*sc*2)/2;b=Math.round(b*sc*2)/2;
+  var sc=vol/500;r=Math.ceil(r*sc);y=Math.ceil(y*sc);b=Math.ceil(b*sc);
   var rP=+(r*2*1000/vol).toFixed(1),yP=+(y*2*1000/vol).toFixed(1),bP=+(b*2*1000/vol).toFixed(1),tds=+(rP+yP+bP).toFixed(1),td=r+y+b||1;
   var el;
   el=document.getElementById('pres-title');if(el)el.textContent=(PVNAMES[v]||v)+' - '+(PPNAMES[pr]||pr);
